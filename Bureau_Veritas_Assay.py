@@ -6,14 +6,9 @@ import re
 import numpy as np
 import logging
 from util import Extract
+from util import Functions
+from util import Post_Processing
 warnings.filterwarnings("ignore")
-
-
-def clean_result(value):
-    if isinstance(value, str):
-        if re.match(r'^<\d+(\.\d+)?$', value) or re.match(r'^\d+(\.\d+)?$', value):
-            return value
-    return np.nan
 
 
 logging.basicConfig(
@@ -50,20 +45,11 @@ for file in file_list:
     print("Working on file", file)
     file_path = folder_path + file
     
-    
-    try:
-        #Reading the data and saving it in a dataframe, the ecoding is mentioned here because the csv file from the lab is not general encoding
-        df = pd.read_excel(file_path)
-    except FileNotFoundError:
-        print(f"Could not find the file {file}")
-        continue
-    except pd.errors.ParserError:
-        print(f"Error reading the file {file}. There might be a problem with its contents.")
-        continue
-    except Exception as e:
-        print(f"An unexpected error occurred while reading the file {file}: {str(e)}")
-        continue
 
+    df = Extract.read_file(file_path, file)
+
+    if df.empty:
+        continue
 
     try:
         Sample_no = list(df['Sample #'].unique())
@@ -72,7 +58,7 @@ for file in file_list:
         project_no = df['Project #'].loc[0]
         job_no = df['Job #'].loc[0]
 
-        df['Result'] = df['Result'].apply(clean_result)
+        df['Result'] = df['Result'].apply(Functions.clean_result())
 
         metal_df = df[
             df['Test'].str.contains('Total', case=False, na=False)
@@ -86,7 +72,6 @@ for file in file_list:
         df_sample_no = pd.DataFrame(Sample_no, columns=['Sample #', 'Client Sample #'])
 
         df_pivot_metal = df_pivot_metal.merge(df_sample_no, left_on='Client Sample #', right_on='Client Sample #', how='left')
-        # df_pivot_metal['Sample #'] = Sample_no
         df_pivot_metal['Project #'] = project_no
         df_pivot_metal['Job #'] = job_no
 
@@ -108,19 +93,7 @@ for file in file_list:
         continue
 
 
-    # Writing_file = '../data/MasterData.xlsx'
-    Writing_file = 'data\MasterData.xlsx'
-
-    try:
-        # reading data from the excle sheet named 'DATABASE' and Taking the data currently in the file in a dataframe
-        metal_master_df = pd.read_excel(Writing_file, sheet_name = 'Metals')
-    except pd.errors.EmptyDataError:
-        metal_master_df = pd.DataFrame()
-    except FileNotFoundError:
-        print(f"File {Writing_file} does not exist.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        continue
+    metal_master_df = Extract.read_database(Writing_file, sheet = 'Metals')
 
     for idx, row in metal_master_df.iterrows():
         df_pivot_metal = df_pivot_metal[~((df_pivot_metal['Sample #'] == row['Sample #']) & (df_pivot_metal['Client Sample #'] == row['Client Sample #']))]
@@ -130,17 +103,9 @@ for file in file_list:
     df_appended_metal['Sampling Date'] = pd.to_datetime(df_appended_metal['Sampling Date'], errors='coerce')
 
     df_appended_metal.sort_values(by='Sampling Date', inplace =True)
-    while True:
-        try:
-            with pd.ExcelWriter(Writing_file, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer: 
-                df_appended_metal.to_excel(writer, sheet_name='Metals', index=False)
-                print("Completed entry for Metals" )
-                break
-        except PermissionError:
-            print("Unable to write to file. It may be open in another program.")
-            input("Please close the file if it's open and press any key to try again.")
-            # Optional: add a delay before next attempt to avoid rapid, successive attempts
-            time.sleep(2)
+
+        
+    Functions.write_data(Writing_file, df_appended_metal, sheet='Metals')
 
 
     try:
@@ -183,17 +148,10 @@ for file in file_list:
         print(f"An error occurred while processing the data: {str(e)}")
         continue
 
-    if no_dissolved_metal == False:
-        try:
-            # reading data from the excle sheet named 'DATABASE' and Taking the data currently in the file in a dataframe
-            dissolved_metal_master_df = pd.read_excel(Writing_file, sheet_name = 'Dissolved')
-        except pd.errors.EmptyDataError:
-            dissolved_metal_master_df = pd.DataFrame()
-        except FileNotFoundError:
-            print(f"File {Writing_file} does not exist.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            continue       
+    if no_dissolved_metal == False:      
+
+        dissolved_metal_master_df = Extract.read_database(Writing_file, sheet= 'Dissolved')
+
         for idx, row in dissolved_metal_master_df.iterrows():
             df_pivot_metal_dissolved = df_pivot_metal_dissolved[~((df_pivot_metal_dissolved['Sample #'] == row['Sample #']) & (df_pivot_metal_dissolved['Client Sample #'] == row['Client Sample #']))]
 
@@ -202,18 +160,8 @@ for file in file_list:
         df_appended_metal_dissolved['Sampling Date'] = pd.to_datetime(df_appended_metal_dissolved['Sampling Date'], errors='coerce')
         
         df_appended_metal_dissolved.sort_values(by='Sampling Date', inplace =True)
-        while True:
-            try:
-                with pd.ExcelWriter(Writing_file, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer: 
-                    df_appended_metal_dissolved.to_excel(writer, sheet_name='Dissolved', index=False)
-                    print("Completed entry for Dissolved" )
-                    break
-            except PermissionError:
-                print("Unable to write to file. It may be open in another program.")
-                input("Please close the file if it's open and press any key to try again.")
-                # Optional: add a delay before next attempt to avoid rapid, successive attempts
-                time.sleep(2)
 
+        Functions.write_data(Writing_file, df_appended_metal_dissolved, sheet='Dissolved')
 
     try:
         Conventional_df = df[
@@ -251,18 +199,9 @@ for file in file_list:
         print(f"An error occurred while processing the data: {str(e)}")
         input("Press Enter to end ")
         continue
+    
+    conventional_master_df = Extract.read_database(Writing_file, sheet='Conventional')
 
-    try:
-        # reading data from the excle sheet named 'DATABASE' and Taking the data currently in the file in a dataframe
-        conventional_master_df = pd.read_excel(Writing_file, sheet_name = 'Conventional')
-    except pd.errors.EmptyDataError:
-        conventional_master_df = pd.DataFrame()
-    except FileNotFoundError:
-        print(f"File {Writing_file} does not exist.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        input("Press Enter to end ")
-        continue
     for idx, row in conventional_master_df.iterrows():
         df_pivot_conventional = df_pivot_conventional[~((df_pivot_conventional['Sample #'] == row['Sample #']) & (df_pivot_conventional['Client Sample #'] == row['Client Sample #']))]
 
@@ -271,28 +210,12 @@ for file in file_list:
     df_appended_conventional['Sampling Date'] = pd.to_datetime(df_appended_conventional['Sampling Date'], errors='coerce')
     
     df_appended_conventional.sort_values(by='Sampling Date', inplace =True)
-    while True:
-        try:
-            with pd.ExcelWriter(Writing_file, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer: 
-                df_appended_conventional.to_excel(writer, sheet_name='Conventional', index=False)
-                print("Completed entry for Conventional" )
-                break
-        except PermissionError:
-            print("Unable to write to file. It may be open in another program.")
-            input("Please close the file if it's open and press any key to try again.")
-            # Optional: add a delay before next attempt to avoid rapid, successive attempts
-            time.sleep(2)
+
+    Functions.write_data(Writing_file, df_appended_conventional, sheet='Conventional' )
 
     print(f"completed entry for file {file}")
     print("...................................")
 
-for file in file_list:
-    file_path = 'files\\' + file
-    # file_path = '../files/' + file
-    if os.path.exists(file_path):
-        os.remove(file_path)
-        print(f"File {file_path} has been deleted.")
-    else:
-        print(f"File {file_path} does not exist.")
+Post_Processing.remove_files(file_list, folder_path)
 
 input("Master Data Updated, please press Enter to end")

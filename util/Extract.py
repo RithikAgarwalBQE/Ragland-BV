@@ -18,3 +18,37 @@ def get_file_list(folder_path):
         file_list = []
     
     return file_list
+
+def read_file(file_path, file):
+    try:
+        #Reading the data and saving it in a dataframe, the ecoding is mentioned here because the csv file from the lab is not general encoding
+        df = pd.DataFrame()
+        df = pd.read_excel(file_path)
+    except FileNotFoundError:
+        print(f"Could not find the file {file}")
+        return df
+    except pd.errors.ParserError:
+        print(f"Error reading the file {file}. There might be a problem with its contents.")
+        return df
+    except Exception as e:
+        print(f"An unexpected error occurred while reading the file {file}: {str(e)}")
+        return df
+    
+    return df
+
+def read_database(Writing_file, sheet):
+
+    try:
+        # reading data from the excle sheet named 'DATABASE' and Taking the data currently in the file in a dataframe
+        df = pd.read_excel(Writing_file, sheet_name = sheet)
+    except pd.errors.EmptyDataError:
+        df = pd.DataFrame()
+    except FileNotFoundError:
+        print(f"File {Writing_file} does not exist.")
+        input('Press any key to enc')
+        exit(1)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        input('Press any key to enc')
+        exit(1)
+    return df
