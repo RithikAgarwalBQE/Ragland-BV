@@ -1,8 +1,5 @@
 import pandas as pd
-import time
 import warnings
-import os
-import re
 import numpy as np
 import logging
 from util import Extract
@@ -43,16 +40,16 @@ error_files = []
 for file in file_list:
 
     print("Working on file", file)
-    file_path = folder_path + file
+    file_location = file_path + file
     
 
-    df = Extract.read_file(file_path, file)
+    df = Extract.read_file(file_location, file)
 
     if df.empty:
         continue
 
     try:
-        df['Result'] = df['Result'].apply(Functions.clean_result())
+        df['Result'] = df['Result'].apply( lambda x: Functions.clean_result(x))
 
         df_pivot_metal, no_metal  = Functions.transform_parameters(df, test_type='Total', parameter ='Total Extractable ' )
         
@@ -61,12 +58,8 @@ for file in file_list:
             no_metal = True
         
         else:
-            list_of_columns = df_pivot_metal.columns.tolist()
+            df_pivot_metal = Functions.convert_to_float(df_pivot_metal)
 
-            list_of_columns = list_of_columns[5:]
-
-            for i in list_of_columns:
-                df_pivot_metal[i] = df_pivot_metal[i].apply(lambda x: float(x) if not x.startswith('<') else x)
     except KeyError as e:
         print(f"A KeyError occurred: {str(e)}. Please make sure the necessary columns exist in the input data.")
         continue
@@ -74,20 +67,13 @@ for file in file_list:
         print(f"An error occurred while processing the data: {str(e)}")
         continue
 
+    if no_metal == False: 
 
-    metal_master_df = Extract.read_database(Writing_file, sheet = 'Metals')
+        metal_master_df = Extract.read_database(Writing_file, sheet = 'Metals')
 
-    for idx, row in metal_master_df.iterrows():
-        df_pivot_metal = df_pivot_metal[~((df_pivot_metal['Sample #'] == row['Sample #']) & (df_pivot_metal['Client Sample #'] == row['Client Sample #']))]
-
-    df_appended_metal = metal_master_df._append(df_pivot_metal, ignore_index=True)
-
-    df_appended_metal['Sampling Date'] = pd.to_datetime(df_appended_metal['Sampling Date'], errors='coerce')
-
-    df_appended_metal.sort_values(by='Sampling Date', inplace =True)
-
-        
-    Functions.write_data(Writing_file, df_appended_metal, sheet='Metals')
+        df_appended_metal = Functions.join_with_master(metal_master_df, df_pivot_metal)
+            
+        Functions.write_data(Writing_file, df_appended_metal, sheet='Metals')
 
 
     try:
@@ -98,13 +84,8 @@ for file in file_list:
             print("No dissolved metal")
             no_dissolved_metal = True
         else:
-
-            list_of_columns = df_pivot_metal_dissolved.columns.tolist()
-
-            list_of_columns = list_of_columns[5:]
-
-            for i in list_of_columns:
-                df_pivot_metal_dissolved[i] = df_pivot_metal_dissolved[i].apply(lambda x: float(x) if not x.startswith('<') else x)
+            df_pivot_metal_dissolved = Functions.convert_to_float(df_pivot_metal_dissolved)
+            
     except KeyError as e:
         print(f"A KeyError occurred: {str(e)}. Please make sure the necessary columns exist in the input data.")
         continue
@@ -116,31 +97,18 @@ for file in file_list:
 
         dissolved_metal_master_df = Extract.read_database(Writing_file, sheet= 'Dissolved')
 
-        for idx, row in dissolved_metal_master_df.iterrows():
-            df_pivot_metal_dissolved = df_pivot_metal_dissolved[~((df_pivot_metal_dissolved['Sample #'] == row['Sample #']) & (df_pivot_metal_dissolved['Client Sample #'] == row['Client Sample #']))]
-
-        df_appended_metal_dissolved = dissolved_metal_master_df._append(df_pivot_metal_dissolved, ignore_index=True)
-
-        df_appended_metal_dissolved['Sampling Date'] = pd.to_datetime(df_appended_metal_dissolved['Sampling Date'], errors='coerce')
-        
-        df_appended_metal_dissolved.sort_values(by='Sampling Date', inplace =True)
+        df_appended_metal_dissolved = Functions.join_with_master(dissolved_metal_master_df, df_pivot_metal_dissolved)
 
         Functions.write_data(Writing_file, df_appended_metal_dissolved, sheet='Dissolved')
 
     try:
-        
         df_pivot_conventional,no_conventional  = Functions.transform_parameters(df, test_type='Dissolved|Total|Mercury', parameter= 'Dissolved ')
 
         if df_pivot_conventional.empty:
             print("No dissolved metal")
             no_conventional = True
         else:
-            list_of_columns = df_pivot_conventional.columns.tolist()
-
-            list_of_columns = list_of_columns[5:]
-
-            for i in list_of_columns:
-                df_pivot_conventional[i] = df_pivot_conventional[i].apply(lambda x: float(x) if not x.startswith('<') else x)
+            df_pivot_conventional = Functions.convert_to_float(df_pivot_conventional)
 
     except KeyError as e:
         print(f"A KeyError occurred: {str(e)}. Please make sure the necessary columns exist in the input data.")
@@ -150,23 +118,17 @@ for file in file_list:
         print(f"An error occurred while processing the data: {str(e)}")
         input("Press Enter to end ")
         continue
-    
-    conventional_master_df = Extract.read_database(Writing_file, sheet='Conventional')
 
-    for idx, row in conventional_master_df.iterrows():
-        df_pivot_conventional = df_pivot_conventional[~((df_pivot_conventional['Sample #'] == row['Sample #']) & (df_pivot_conventional['Client Sample #'] == row['Client Sample #']))]
+    if no_conventional == False:
+        conventional_master_df = Extract.read_database(Writing_file, sheet='Conventional')
 
-    df_appended_conventional = conventional_master_df._append(df_pivot_conventional, ignore_index=True)
+        df_appended_conventional = Functions.join_with_master(conventional_master_df, df_pivot_conventional)
 
-    df_appended_conventional['Sampling Date'] = pd.to_datetime(df_appended_conventional['Sampling Date'], errors='coerce')
-    
-    df_appended_conventional.sort_values(by='Sampling Date', inplace =True)
-
-    Functions.write_data(Writing_file, df_appended_conventional, sheet='Conventional' )
+        Functions.write_data(Writing_file, df_appended_conventional, sheet='Conventional' )
 
     print(f"completed entry for file {file}")
     print("...................................")
 
-Post_Processing.remove_files(file_list, folder_path)
+Post_Processing.remove_files(file_list, file_path)
 
 input("Master Data Updated, please press Enter to end")

@@ -19,7 +19,7 @@ def write_data(Writing_file, df, sheet):
         try:
             with pd.ExcelWriter(Writing_file, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer: 
                 df.to_excel(writer, sheet_name= sheet, index=False)
-                print("Completed entry for Metals" )
+                print("Completed entry for " + sheet  )
                 break
         except PermissionError:
             print("Unable to write to file. It may be open in another program.")
@@ -70,4 +70,27 @@ def transform_parameters(df, test_type, parameter):
         df_pivot.insert(3, 'Job #', df_pivot.pop('Job #'))
 
     return df_pivot, parameter_check
+
+def convert_to_float(df):
+    
+    list_of_columns = df.columns.tolist()
+
+    list_of_columns = list_of_columns[5:]
+
+    for i in list_of_columns:
+        df[i] = df[i].apply(lambda x: float(x) if not x.startswith('<') else x)
+
+    return df
         
+def join_with_master(df_master, df_pivot):
+
+    for idx, row in df_master.iterrows():
+        df_pivot = df_pivot[~((df_pivot['Sample #'] == row['Sample #']) & (df_pivot['Client Sample #'] == row['Client Sample #']))]
+
+    df_appended = df_master._append(df_pivot, ignore_index=True)
+
+    df_appended['Sampling Date'] = pd.to_datetime(df_appended['Sampling Date'], errors='coerce')
+
+    df_appended.sort_values(by='Sampling Date', inplace =True)
+
+    return df_appended

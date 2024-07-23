@@ -25,7 +25,7 @@ def read_file(file_path, file):
         df = pd.DataFrame()
         df = pd.read_excel(file_path)
     except FileNotFoundError:
-        print(f"Could not find the file {file}")
+        print(f"Could not find the file {file_path}")
         return df
     except pd.errors.ParserError:
         print(f"Error reading the file {file}. There might be a problem with its contents.")
