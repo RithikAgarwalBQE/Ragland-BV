@@ -73,7 +73,7 @@ for file in file_list:
 
         df_appended_metal = Functions.join_with_master(metal_master_df, df_pivot_metal)
             
-        Functions.write_data(Writing_file, df_appended_metal, sheet='Metals')
+        # Functions.write_data(Writing_file, df_appended_metal, sheet='Metals')
 
 
     try:
@@ -99,7 +99,7 @@ for file in file_list:
 
         df_appended_metal_dissolved = Functions.join_with_master(dissolved_metal_master_df, df_pivot_metal_dissolved)
 
-        Functions.write_data(Writing_file, df_appended_metal_dissolved, sheet='Dissolved')
+        # Functions.write_data(Writing_file, df_appended_metal_dissolved, sheet='Dissolved')
 
     try:
         df_pivot_conventional,no_conventional  = Functions.transform_parameters(df, test_type='Dissolved|Total|Mercury', parameter= 'Dissolved ')
@@ -124,7 +124,7 @@ for file in file_list:
 
         df_appended_conventional = Functions.join_with_master(conventional_master_df, df_pivot_conventional)
 
-        Functions.write_data(Writing_file, df_appended_conventional, sheet='Conventional' )
+        # Functions.write_data(Writing_file, df_appended_conventional, sheet='Conventional' )
 
     print(f"completed entry for file {file}")
     print("...................................")
