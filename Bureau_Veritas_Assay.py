@@ -66,14 +66,23 @@ for file in file_list:
     except Exception as e:
         print(f"An error occurred while processing the data: {str(e)}")
         continue
-
+    
     if no_metal == False: 
+
+        df_metal_refined = Functions.handle_detection_data(df_pivot_metal)
 
         metal_master_df = Extract.read_database(Writing_file, sheet = 'Metals')
 
         df_appended_metal = Functions.join_with_master(metal_master_df, df_pivot_metal)
             
-        # Functions.write_data(Writing_file, df_appended_metal, sheet='Metals')
+        Functions.write_data(Writing_file, df_appended_metal, sheet='Metals')
+
+        metal_refined_master_df = Extract.read_database(Writing_file, sheet = 'Metal Refined')
+
+        df_appended_metal_refined = Functions.join_with_master(metal_refined_master_df, df_metal_refined)
+            
+        Functions.write_data(Writing_file, df_metal_refined, sheet='Metal Refined')
+
 
 
     try:
@@ -92,14 +101,24 @@ for file in file_list:
     except Exception as e:
         print(f"An error occurred while processing the data: {str(e)}")
         continue
+    
+    if no_dissolved_metal == False:
 
-    if no_dissolved_metal == False:      
+        df_dissolved_refined = Functions.handle_detection_data(df_pivot_metal_dissolved)   
 
         dissolved_metal_master_df = Extract.read_database(Writing_file, sheet= 'Dissolved')
 
         df_appended_metal_dissolved = Functions.join_with_master(dissolved_metal_master_df, df_pivot_metal_dissolved)
 
-        # Functions.write_data(Writing_file, df_appended_metal_dissolved, sheet='Dissolved')
+        Functions.write_data(Writing_file, df_appended_metal_dissolved, sheet='Dissolved')
+
+        dissolved_refined_master_df = Extract.read_database(Writing_file, sheet = 'Dissolved Refined')
+
+        df_appended_dissolved_refined = Functions.join_with_master(dissolved_refined_master_df, df_dissolved_refined)
+            
+        Functions.write_data(Writing_file, df_appended_dissolved_refined, sheet='Dissolved Refined')
+
+        
 
     try:
         df_pivot_conventional,no_conventional  = Functions.transform_parameters(df, test_type='Dissolved|Total|Mercury', parameter= 'Dissolved ')
@@ -120,15 +139,24 @@ for file in file_list:
         continue
 
     if no_conventional == False:
+
+        df_conventional_refined = Functions.handle_detection_data(df_pivot_conventional)
+
         conventional_master_df = Extract.read_database(Writing_file, sheet='Conventional')
 
         df_appended_conventional = Functions.join_with_master(conventional_master_df, df_pivot_conventional)
 
-        # Functions.write_data(Writing_file, df_appended_conventional, sheet='Conventional' )
+        Functions.write_data(Writing_file, df_appended_conventional, sheet='Conventional' )
+
+        conventional_refined_master_df = Extract.read_database(Writing_file, sheet = 'Conventional Refined')
+
+        df_appended_conventional_refined = Functions.join_with_master(conventional_refined_master_df, df_conventional_refined)
+            
+        Functions.write_data(Writing_file, df_appended_conventional_refined, sheet='Conventional Refined')
 
     print(f"completed entry for file {file}")
     print("...................................")
 
-Post_Processing.remove_files(file_list, file_path)
+# Post_Processing.remove_files(file_list, file_path)
 
 input("Master Data Updated, please press Enter to end")

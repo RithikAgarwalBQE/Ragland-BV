@@ -39,9 +39,14 @@ def transform_parameters(df, test_type, parameter):
     project_no = df['Project #'].loc[0]
     job_no = df['Job #'].loc[0] 
     
-    df = df[
-        df['Test'].str.contains(test_type, case=False, na=False)
-    ]
+    if test_type == 'Dissolved|Total|Mercury':
+        df = df[
+            ~(df['Test'].str.contains('Dissolved|Total|Mercury', case=False, na=False))
+        ]
+    else:
+        df = df[
+            df['Test'].str.contains(test_type, case=False, na=False)
+        ]
 
     parameter_check = False
 
@@ -51,9 +56,6 @@ def transform_parameters(df, test_type, parameter):
 
         return df_pivot, parameter_check
     else:
-
-        if test_type != 'Dissolved|Total|Mercury':
-            df['Parameter'] = df['Parameter'].str.replace(parameter, '')
 
         final_df = df[['Sampling Date','Client Sample #', 'Test', 'Parameter', 'Result']]
 
@@ -70,6 +72,26 @@ def transform_parameters(df, test_type, parameter):
         df_pivot.insert(3, 'Job #', df_pivot.pop('Job #'))
 
     return df_pivot, parameter_check
+
+def handle_detection_data(df_refined):
+    # Iterate over each row in the DataFrame
+    for index, row in df_refined.iterrows():
+        # Iterate over columns starting from the 6th one (index 5)
+        for col in df_refined.columns[5:]:
+            value = row[col]
+            # Check if the value is NaN, and if so, skip processing
+            if pd.isna(value):
+                continue
+            if isinstance(value, str) and '<' in value:
+                # Remove '<' sign and convert to float, then divide by 2
+                try:
+                    new_value = float(value.replace('<', '')) / 2
+                except ValueError:
+                    new_value = np.nan  # Handle the case where conversion fails
+                df_refined.at[index, col] = new_value
+                
+    return df_refined
+
 
 def convert_to_float(df):
     
