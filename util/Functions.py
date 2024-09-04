@@ -7,6 +7,8 @@ import numpy as np
 import re
 import logging
 
+
+
 def clean_result(value):
     if isinstance(value, str):
         if re.match(r'^<\d+(\.\d+)?$', value) or re.match(r'^\d+(\.\d+)?$', value):
@@ -20,6 +22,7 @@ def write_data(Writing_file, df, sheet):
             with pd.ExcelWriter(Writing_file, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer: 
                 df.to_excel(writer, sheet_name= sheet, index=False)
                 print("Completed entry for " + sheet  )
+                logging.info("Completed entry for " + sheet  )
                 break
         except PermissionError:
             print("Unable to write to file. It may be open in another program.")
@@ -28,6 +31,7 @@ def write_data(Writing_file, df, sheet):
             time.sleep(2)
         except Exception as e:
             print(f"An error occurred: {e}")
+            logging.error(f"An error occurred: {e}")
             input('Press any key to enc')
             exit(1)
 
@@ -47,6 +51,7 @@ def transform_parameters(df, test_type, parameter):
         df = df[
             df['Test'].str.contains(test_type, case=False, na=False)
         ]
+        df['Parameter'] = df['Parameter'].str.replace(parameter, '')
 
     parameter_check = False
 

@@ -34,12 +34,14 @@ file_list = Extract.get_file_list(folder_path)
 
 
 print("Starting...............")
+logging.info("Starting...............")
 
 error_files = []
 
 for file in file_list:
 
     print("Working on file", file)
+    logging.info("Working on file" + file)
     file_location = file_path + file
     
 
@@ -55,6 +57,7 @@ for file in file_list:
         
         if df_pivot_metal.empty:
             print("No total metal")
+            logging.info("No total metal")
             no_metal = True
         
         else:
@@ -62,9 +65,11 @@ for file in file_list:
 
     except KeyError as e:
         print(f"A KeyError occurred: {str(e)}. Please make sure the necessary columns exist in the input data.")
+        logging.error(f"A KeyError occurred: {str(e)}. Please make sure the necessary columns exist in the input data.")
         continue
     except Exception as e:
         print(f"An error occurred while processing the data: {str(e)}")
+        logging.error(f"An error occurred while processing the data: {str(e)}")
         continue
     
     if no_metal == False: 
@@ -91,15 +96,18 @@ for file in file_list:
 
         if df_pivot_metal_dissolved.empty:
             print("No dissolved metal")
+            logging.info("No dissolved metal")
             no_dissolved_metal = True
         else:
             df_pivot_metal_dissolved = Functions.convert_to_float(df_pivot_metal_dissolved)
             
     except KeyError as e:
         print(f"A KeyError occurred: {str(e)}. Please make sure the necessary columns exist in the input data.")
+        logging.error(f"A KeyError occurred: {str(e)}. Please make sure the necessary columns exist in the input data.")
         continue
     except Exception as e:
         print(f"An error occurred while processing the data: {str(e)}")
+        logging.error(f"An error occurred while processing the data: {str(e)}")
         continue
     
     if no_dissolved_metal == False:
@@ -121,20 +129,23 @@ for file in file_list:
         
 
     try:
-        df_pivot_conventional,no_conventional  = Functions.transform_parameters(df, test_type='Dissolved|Total|Mercury', parameter= 'Dissolved ')
+        df_pivot_conventional,no_conventional  = Functions.transform_parameters(df, test_type='Dissolved|Total|Mercury', parameter= '')
 
         if df_pivot_conventional.empty:
             print("No dissolved metal")
+            logging.info("No dissolved metal")
             no_conventional = True
         else:
             df_pivot_conventional = Functions.convert_to_float(df_pivot_conventional)
 
     except KeyError as e:
         print(f"A KeyError occurred: {str(e)}. Please make sure the necessary columns exist in the input data.")
+        logging.error(f"A KeyError occurred: {str(e)}. Please make sure the necessary columns exist in the input data.")
         input("Press Enter to end ")
         continue
     except Exception as e:
         print(f"An error occurred while processing the data: {str(e)}")
+        logging.error(f"An error occurred while processing the data: {str(e)}")
         input("Press Enter to end ")
         continue
 
@@ -155,8 +166,10 @@ for file in file_list:
         Functions.write_data(Writing_file, df_appended_conventional_refined, sheet='Conventional Refined')
 
     print(f"completed entry for file {file}")
+    logging.info(f"completed entry for file {file}")
     print("...................................")
 
-# Post_Processing.remove_files(file_list, file_path)
+Post_Processing.remove_files(file_list, file_path)
 
 input("Master Data Updated, please press Enter to end")
+logging.info("Master Data Updated, please press Enter to end")

@@ -1,4 +1,5 @@
 import os
+import logging
 
 def remove_files(file_list, file_path):
     for file in file_list:
@@ -7,5 +8,7 @@ def remove_files(file_list, file_path):
         if os.path.exists(file_location):
             os.remove(file_location)
             print(f"File {file} has been deleted.")
+            logging.info(f"File {file} has been deleted.")
         else:
             print(f"File {file} does not exist.")
+            logging.info(f"File {file} does not exist.")

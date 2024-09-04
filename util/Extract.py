@@ -3,18 +3,22 @@ import pandas as pd
 import os
 from . import Functions
 
+
 def get_file_list(folder_path):
     try:
         # Get a list of all files in the folder
         file_list = os.listdir(folder_path)
     except FileNotFoundError:
         print(f"Error: The folder '{folder_path}' does not exist.")
+        logging.error(f"Error: The folder '{folder_path}' does not exist.")
         file_list = []
     except PermissionError:
         print(f"Error: The program does not have permission to access the folder '{folder_path}'.")
+        logging.error(f"Error: The program does not have permission to access the folder '{folder_path}'.")
         file_list = []
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
+        logging(f"An unexpected error occurred: {e}")
         file_list = []
     
     return file_list
@@ -26,12 +30,15 @@ def read_file(file_path, file):
         df = pd.read_excel(file_path)
     except FileNotFoundError:
         print(f"Could not find the file {file_path}")
+        logging.error(f"Could not find the file {file_path}")
         return df
     except pd.errors.ParserError:
         print(f"Error reading the file {file}. There might be a problem with its contents.")
+        logging.error(f"Error reading the file {file}. There might be a problem with its contents.")
         return df
     except Exception as e:
         print(f"An unexpected error occurred while reading the file {file}: {str(e)}")
+        logging.error(f"An unexpected error occurred while reading the file {file}: {str(e)}")
         return df
     
     return df
@@ -45,6 +52,7 @@ def read_database(Writing_file, sheet):
         df = pd.DataFrame()
     except FileNotFoundError:
         print(f"File {Writing_file} does not exist.")
+        logging.error(f"File {Writing_file} does not exist.")
         input('Press any key to enc')
         exit(1)
     except Exception as e:

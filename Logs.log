@@ -1,0 +1,30 @@
+2024-09-04 11:16:24,640 - ERROR - Error: The folder '../Input_files' does not exist.
+2024-09-04 11:16:24,640 - INFO - Starting...............
+2024-09-04 11:16:37,777 - INFO - Master Data Updated, please press Enter to end
+2024-09-04 11:16:39,319 - INFO - Starting...............
+2024-09-04 11:16:39,644 - INFO - Completed entry for Metals
+2024-09-04 11:16:39,741 - INFO - Completed entry for Metal Refined
+2024-09-04 11:16:39,843 - INFO - Completed entry for Dissolved
+2024-09-04 11:16:39,934 - INFO - Completed entry for Dissolved Refined
+2024-09-04 11:16:40,084 - INFO - Completed entry for Conventional
+2024-09-04 11:16:40,210 - INFO - Completed entry for Conventional Refined
+2024-09-04 11:16:40,283 - INFO - completed entry for file 2024-06-03 C428599V1 Assay.XLS
+2024-09-04 11:16:40,287 - INFO - File 2024-06-03 C428599V1 Assay.XLS has been deleted.
+2024-09-04 11:17:09,384 - INFO - Master Data Updated, please press Enter to end
+2024-09-04 11:19:01,413 - INFO - Starting...............
+2024-09-04 11:19:08,598 - INFO - Master Data Updated, please press Enter to end
+2024-09-04 11:19:11,664 - INFO - Starting...............
+2024-09-04 11:19:14,230 - INFO - Master Data Updated, please press Enter to end
+2024-09-04 11:20:02,991 - INFO - Starting...............
+2024-09-04 11:20:11,069 - INFO - Master Data Updated, please press Enter to end
+2024-09-04 11:20:37,260 - INFO - Starting...............
+2024-09-04 11:20:37,260 - INFO - Working on file2024-08-05 C442846V1 DIR-Z3 Assay.XLS
+2024-09-04 11:20:37,543 - INFO - Completed entry for Metals
+2024-09-04 11:20:37,622 - INFO - Completed entry for Metal Refined
+2024-09-04 11:20:37,701 - INFO - Completed entry for Dissolved
+2024-09-04 11:20:37,769 - INFO - Completed entry for Dissolved Refined
+2024-09-04 11:20:37,844 - INFO - Completed entry for Conventional
+2024-09-04 11:20:37,913 - INFO - Completed entry for Conventional Refined
+2024-09-04 11:20:37,945 - INFO - completed entry for file 2024-08-05 C442846V1 DIR-Z3 Assay.XLS
+2024-09-04 11:20:37,947 - INFO - File 2024-08-05 C442846V1 DIR-Z3 Assay.XLS has been deleted.
+2024-09-04 11:20:42,398 - INFO - Master Data Updated, please press Enter to end
