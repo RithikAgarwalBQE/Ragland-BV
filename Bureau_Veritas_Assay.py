@@ -86,7 +86,7 @@ for file in file_list:
 
         df_appended_metal_refined = Functions.join_with_master(metal_refined_master_df, df_metal_refined)
             
-        Functions.write_data(Writing_file, df_metal_refined, sheet='Metal Refined')
+        Functions.write_data(Writing_file, df_appended_metal_refined, sheet='Metal Refined')
 
 
 
