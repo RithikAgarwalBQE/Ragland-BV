@@ -28,3 +28,64 @@
 2024-09-04 11:20:37,945 - INFO - completed entry for file 2024-08-05 C442846V1 DIR-Z3 Assay.XLS
 2024-09-04 11:20:37,947 - INFO - File 2024-08-05 C442846V1 DIR-Z3 Assay.XLS has been deleted.
 2024-09-04 11:20:42,398 - INFO - Master Data Updated, please press Enter to end
+2024-10-02 15:45:26,878 - INFO - Starting...............
+2024-10-02 15:45:26,878 - INFO - Working on file2024-09-01 C449200V1 DIR-Z3 Assay.XLS
+2024-10-02 15:45:27,992 - INFO - Completed entry for Metals
+2024-10-02 15:45:29,555 - INFO - Completed entry for Metal Refined
+2024-10-02 15:45:31,103 - INFO - Completed entry for Dissolved
+2024-10-02 15:45:32,598 - INFO - Completed entry for Dissolved Refined
+2024-10-02 15:45:34,047 - INFO - Completed entry for Conventional
+2024-10-02 15:45:35,562 - INFO - Completed entry for Conventional Refined
+2024-10-02 15:45:36,102 - INFO - completed entry for file 2024-09-01 C449200V1 DIR-Z3 Assay.XLS
+2024-10-02 15:45:36,102 - INFO - Working on file2024-09-03 C449499V1 DIR-UT Assay.XLS
+2024-10-02 15:45:37,226 - INFO - Completed entry for Metals
+2024-10-02 15:45:38,881 - INFO - Completed entry for Metal Refined
+2024-10-02 15:45:40,549 - INFO - Completed entry for Dissolved
+2024-10-02 15:45:42,099 - INFO - Completed entry for Dissolved Refined
+2024-10-02 15:45:43,595 - INFO - Completed entry for Conventional
+2024-10-02 15:45:45,116 - INFO - Completed entry for Conventional Refined
+2024-10-02 15:45:45,652 - INFO - completed entry for file 2024-09-03 C449499V1 DIR-UT Assay.XLS
+2024-10-02 15:45:45,653 - INFO - File 2024-09-01 C449200V1 DIR-Z3 Assay.XLS has been deleted.
+2024-10-02 15:45:45,653 - INFO - File 2024-09-03 C449499V1 DIR-UT Assay.XLS has been deleted.
+2024-10-02 15:45:50,630 - INFO - Master Data Updated, please press Enter to end
+2024-10-02 15:54:01,325 - INFO - Starting...............
+2024-10-02 15:54:06,570 - INFO - Master Data Updated, please press Enter to end
+2024-10-02 15:54:24,773 - INFO - Starting...............
+2024-10-02 15:54:24,773 - INFO - Working on file2024-09-01 C449200V1 DIR-Z3 Assay.XLS
+2024-10-02 15:54:26,374 - INFO - completed entry for file 2024-09-01 C449200V1 DIR-Z3 Assay.XLS
+2024-10-02 15:54:26,375 - INFO - Working on file2024-09-03 C449499V1 DIR-UT Assay.XLS
+2024-10-02 15:54:27,760 - INFO - completed entry for file 2024-09-03 C449499V1 DIR-UT Assay.XLS
+2024-10-02 15:56:11,513 - INFO - Starting...............
+2024-10-02 15:56:11,514 - INFO - Working on file2024-09-01 C449200V1 DIR-Z3 Assay.XLS
+2024-10-02 15:56:13,060 - INFO - completed entry for file 2024-09-01 C449200V1 DIR-Z3 Assay.XLS
+2024-10-02 15:56:13,060 - INFO - Working on file2024-09-03 C449499V1 DIR-UT Assay.XLS
+2024-10-02 15:56:14,442 - INFO - completed entry for file 2024-09-03 C449499V1 DIR-UT Assay.XLS
+2024-10-02 15:56:38,022 - INFO - Master Data Updated, please press Enter to end
+2024-10-02 15:56:41,205 - INFO - Starting...............
+2024-10-02 15:56:41,206 - INFO - Working on file2024-09-01 C449200V1 DIR-Z3 Assay.XLS
+2024-10-02 15:56:42,774 - INFO - completed entry for file 2024-09-01 C449200V1 DIR-Z3 Assay.XLS
+2024-10-02 15:56:42,775 - INFO - Working on file2024-09-03 C449499V1 DIR-UT Assay.XLS
+2024-10-02 15:56:44,148 - INFO - completed entry for file 2024-09-03 C449499V1 DIR-UT Assay.XLS
+2024-10-02 15:58:24,810 - INFO - Starting...............
+2024-10-02 15:58:24,810 - INFO - Working on file2024-09-01 C449200V1 DIR-Z3 Assay.XLS
+2024-10-02 15:58:26,370 - INFO - completed entry for file 2024-09-01 C449200V1 DIR-Z3 Assay.XLS
+2024-10-02 15:58:26,371 - INFO - Working on file2024-09-03 C449499V1 DIR-UT Assay.XLS
+2024-10-02 15:58:27,754 - INFO - completed entry for file 2024-09-03 C449499V1 DIR-UT Assay.XLS
+2024-10-02 16:02:22,988 - INFO - Master Data Updated, please press Enter to end
+2024-10-02 16:02:25,209 - INFO - Starting...............
+2024-10-02 16:02:25,209 - INFO - Working on file2024-09-01 C449200V1 DIR-Z3 Assay.XLS
+2024-10-02 16:02:26,325 - INFO - Completed entry for Metals
+2024-10-02 16:02:27,906 - INFO - Completed entry for Metal Refined
+2024-10-02 16:02:29,540 - INFO - Completed entry for Dissolved
+2024-10-02 16:02:30,990 - INFO - Completed entry for Dissolved Refined
+2024-10-02 16:02:32,429 - INFO - Completed entry for Conventional
+2024-10-02 16:02:33,892 - INFO - Completed entry for Conventional Refined
+2024-10-02 16:02:34,435 - INFO - completed entry for file 2024-09-01 C449200V1 DIR-Z3 Assay.XLS
+2024-10-02 16:02:34,436 - INFO - Working on file2024-09-03 C449499V1 DIR-UT Assay.XLS
+2024-10-02 16:02:35,564 - INFO - Completed entry for Metals
+2024-10-02 16:02:37,165 - INFO - Completed entry for Metal Refined
+2024-10-02 16:02:38,738 - INFO - Completed entry for Dissolved
+2024-10-02 16:02:40,246 - INFO - Completed entry for Dissolved Refined
+2024-10-02 16:02:41,699 - INFO - Completed entry for Conventional
+2024-10-02 16:02:43,143 - INFO - Completed entry for Conventional Refined
+2024-10-02 16:02:43,705 - INFO - completed entry for file 2024-09-03 C449499V1 DIR-UT Assay.XLS

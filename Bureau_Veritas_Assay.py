@@ -74,13 +74,13 @@ for file in file_list:
     
     if no_metal == False: 
 
-        df_metal_refined = Functions.handle_detection_data(df_pivot_metal)
-
         metal_master_df = Extract.read_database(Writing_file, sheet = 'Metals')
 
         df_appended_metal = Functions.join_with_master(metal_master_df, df_pivot_metal)
             
         Functions.write_data(Writing_file, df_appended_metal, sheet='Metals')
+
+        df_metal_refined = Functions.handle_detection_data(df_pivot_metal)
 
         metal_refined_master_df = Extract.read_database(Writing_file, sheet = 'Metal Refined')
 
@@ -111,14 +111,13 @@ for file in file_list:
         continue
     
     if no_dissolved_metal == False:
-
-        df_dissolved_refined = Functions.handle_detection_data(df_pivot_metal_dissolved)   
-
         dissolved_metal_master_df = Extract.read_database(Writing_file, sheet= 'Dissolved')
 
         df_appended_metal_dissolved = Functions.join_with_master(dissolved_metal_master_df, df_pivot_metal_dissolved)
 
         Functions.write_data(Writing_file, df_appended_metal_dissolved, sheet='Dissolved')
+
+        df_dissolved_refined = Functions.handle_detection_data(df_pivot_metal_dissolved)   
 
         dissolved_refined_master_df = Extract.read_database(Writing_file, sheet = 'Dissolved Refined')
 
@@ -151,13 +150,13 @@ for file in file_list:
 
     if no_conventional == False:
 
-        df_conventional_refined = Functions.handle_detection_data(df_pivot_conventional)
-
         conventional_master_df = Extract.read_database(Writing_file, sheet='Conventional')
 
         df_appended_conventional = Functions.join_with_master(conventional_master_df, df_pivot_conventional)
 
         Functions.write_data(Writing_file, df_appended_conventional, sheet='Conventional' )
+
+        df_conventional_refined = Functions.handle_detection_data(df_pivot_conventional)
 
         conventional_refined_master_df = Extract.read_database(Writing_file, sheet = 'Conventional Refined')
 

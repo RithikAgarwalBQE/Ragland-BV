@@ -78,11 +78,11 @@ def transform_parameters(df, test_type, parameter):
 
     return df_pivot, parameter_check
 
-def handle_detection_data(df_refined):
+def handle_detection_data(df):
     # Iterate over each row in the DataFrame
-    for index, row in df_refined.iterrows():
+    for index, row in df.iterrows():
         # Iterate over columns starting from the 6th one (index 5)
-        for col in df_refined.columns[5:]:
+        for col in df.columns[5:]:
             value = row[col]
             # Check if the value is NaN, and if so, skip processing
             if pd.isna(value):
@@ -93,9 +93,9 @@ def handle_detection_data(df_refined):
                     new_value = float(value.replace('<', '')) / 2
                 except ValueError:
                     new_value = np.nan  # Handle the case where conversion fails
-                df_refined.at[index, col] = new_value
+                df.at[index, col] = new_value
                 
-    return df_refined
+    return df
 
 
 def convert_to_float(df):
